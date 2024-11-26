@@ -8,6 +8,7 @@
 
 
 int main(){
+  int * arr = (int*) malloc(sizeof(int) * 2);
   printf("%d about to create 2 child processes\n", getpid());
   pid_t p;
   // for (int i = 0; i < 2; i++){
@@ -17,33 +18,19 @@ int main(){
     }
     if (!p){
       int fd = open("/dev/random", O_RDONLY);
-      int n  = -1;
-      int r = read(fd, &n, 4);
+      int n;
+      int r = read(fd, &n, 8);
       n = abs(n % 5) + 1;
-      // printf("%d\n", n);
-      // printf("%d\n", p);
       printf("%d %d sec\n", getpid(), n);
       sleep(n);
       printf("%d finished after %d seconds.\n", getpid(), n);
-      exit(0);
+      exit(n);
     }
-  // }
 
-  // if(p < 0){
-  // perror("fork fail");
-  // printf("%s\n", strerror(errno));
-  // exit(1);
-  // }
-  // else if (p != 0){
-  //   pid_t p;
-  //   p = fork();
-  // }
-  // if (p == 0){
-  //   // random
-
-// }
-int n = 0;
-wait(&n);
+int x = 0;
+int n = wait(&x);
+int status = WEXITSTATUS(x);
+printf("Main Process %d is done. Child %d slept for %d sec\n", getpid(), n, status);
 exit(0);
 
 }
