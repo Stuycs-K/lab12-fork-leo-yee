@@ -17,7 +17,7 @@ int main(){
       p = fork();
     }
     if (!p){
-      int fd = open("/dev/random", O_RDONLY);
+      int fd = open("/dev/urandom", O_RDONLY);
       int n;
       int r = read(fd, &n, 8);
       n = abs(n % 5) + 1;
